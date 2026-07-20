@@ -9,27 +9,27 @@ The authoritative definition lives at [src/ports/port.ts](https://github.com/tsv
 ```typescript
 /** An opened document: its text and enough identity to save back. */
 interface PortDocument {
-	readonly name: string;
-	/** The `.tsvt` source, verbatim. */
-	readonly text: string;
-	/** Opaque host token for saveExisting; null when saves cannot re-target. */
-	readonly handle: unknown;
+  readonly name: string;
+  /** The `.tsvt` source, verbatim. */
+  readonly text: string;
+  /** Opaque host token for saveExisting; null when saves cannot re-target. */
+  readonly handle: unknown;
 }
 
 /** Everything the editor asks of its host. Methods reject with PortError. */
 interface FilePort {
-	/** Interactive open. Resolves null when the user cancels. */
-	open(): Promise<PortDocument | null>;
-	/** Save back to the document's origin. */
-	saveExisting(doc: PortDocument, text: string): Promise<void>;
-	/** Interactive save-as. Resolves the new document, or null on cancel. */
-	saveAs(suggestedName: string, text: string): Promise<PortDocument | null>;
-	/** Ask the user to confirm discarding unsaved changes. */
-	confirmDiscard(name: string): Promise<boolean>;
-	/** Host-initiated opens (OS file association); the editor subscribes once. */
-	onOpened(listener: (doc: PortDocument) => void): void;
-	/** Host-initiated teardown; the listener answers whether it may proceed. */
-	onCloseRequested(listener: () => Promise<boolean>): void;
+  /** Interactive open. Resolves null when the user cancels. */
+  open(): Promise<PortDocument | null>;
+  /** Save back to the document's origin. */
+  saveExisting(doc: PortDocument, text: string): Promise<void>;
+  /** Interactive save-as. Resolves the new document, or null on cancel. */
+  saveAs(suggestedName: string, text: string): Promise<PortDocument | null>;
+  /** Ask the user to confirm discarding unsaved changes. */
+  confirmDiscard(name: string): Promise<boolean>;
+  /** Host-initiated opens (OS file association); the editor subscribes once. */
+  onOpened(listener: (doc: PortDocument) => void): void;
+  /** Host-initiated teardown; the listener answers whether it may proceed. */
+  onCloseRequested(listener: () => Promise<boolean>): void;
 }
 ```
 
