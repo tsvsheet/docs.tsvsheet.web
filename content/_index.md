@@ -24,7 +24,7 @@ Every committed edit — cell changes, row and column inserts and deletes — is
 
 ## Diagnostics
 
-Cells the engine cannot compute are marked in place, and a diagnostics strip below the grid lists every diagnostic as `cell: message`. The grid also indicates when a sheet is _volatile_ — when it uses functions whose results depend on evaluation time, so its values can differ between computations.
+Cells the engine cannot compute are marked in place, and a diagnostics strip below the grid lists every diagnostic as `cell: message`. The grid also indicates when a sheet is _volatile_ — when it wraps a cell in `volatile()`, marking that its value re-evaluates over time, so it can differ between computations and the view refreshes on a schedule.
 
 ## Offline and self-contained
 
