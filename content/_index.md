@@ -1,5 +1,5 @@
 ---
-title: Home
+title: tsvsheet.web
 ---
 
 **tsvsheet.web** is the grid editor for [tsvsheet](https://github.com/tsvsheet/tsvsheet) — a spreadsheet for plain text. It is a standalone, fully client-side webapp: open a `.tsvt` file into an editable computed grid, edit cells and formulas, and save canonical text back. The tsvsheet engine runs in the page as WebAssembly, so every cell is computed exactly as every other tsvsheet frontend computes it, and the file never leaves your machine.
