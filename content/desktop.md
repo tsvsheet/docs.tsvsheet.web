@@ -12,6 +12,6 @@ title: Desktop
 
 Files are read and written verbatim: the app hands the editor your file's exact bytes and writes back exactly what the editor produces, nothing more.
 
-- Source: [tsvsheet/tsvsheet.ui](https://github.com/tsvsheet/tsvsheet.ui)
-- The editor it embeds: [tsvsheet/tsvsheet.web](https://github.com/tsvsheet/tsvsheet.web)
+- Source: `tsvsheet/tsvsheet.ui` (not yet public)
+- The editor it embeds: `tsvsheet/tsvsheet.web` (not yet public)
 - Language: [tsvsheet/tsvsheet](https://github.com/tsvsheet/tsvsheet)
