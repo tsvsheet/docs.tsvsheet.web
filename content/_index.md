@@ -18,6 +18,14 @@ What lands on disk follows one promise: **saving a document you have not edited 
 
 The grid is fully keyboard operable, following the [ARIA grid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/): arrow keys move the selection, Tab steps across cells, Enter opens the selected cell's source in an editor, Enter commits, and Escape cancels without changing anything. **Ctrl+D** (Cmd on macOS) fills the selected cell from the cell above and **Ctrl+R** from the cell to its left — the copy's relative references shift to the new position while `$`-pinned coordinates stay put, exactly as fill works in Excel; on the top row or first column there is no source cell, so the keys do nothing.
 
+## The view a sheet declares
+
+A `.tsvt` can declare what a viewport should do with it, on `#.` lines — which rows and columns to hide, which carry headers, which stay pinned while the rest scrolls. The editor honours all three: hidden rows and columns are not drawn, header rows read as headers, and frozen rows and columns stay put as you scroll.
+
+Hiding never renumbers. Row 7 is row 7 whether or not rows 3–6 are hidden, because every formula still addresses them, so the gutter marks the skip rather than closing it up.
+
+**Show hidden** appears in the toolbar when a sheet hides something. It reveals without unhiding: the revealed cells are marked as hidden rather than shown as ordinary data, the document does not become dirty, and the file is untouched — so a sheet you share still carries the view its author declared.
+
 ## Undo and redo
 
 Every committed edit — cell changes, row and column inserts and deletes — is one step in the history. **Undo** and **Redo** walk that history; undoing all the way back returns the document to its exact opened text, restoring the byte-identical save promise.
