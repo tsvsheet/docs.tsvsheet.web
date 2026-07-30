@@ -18,6 +18,16 @@ What lands on disk follows one promise: **saving a document you have not edited 
 
 The grid is fully keyboard operable, following the [ARIA grid pattern](https://www.w3.org/WAI/ARIA/apg/patterns/grid/): arrow keys move the selection, Tab steps across cells, Enter opens the selected cell's source in an editor, Enter commits, and Escape cancels without changing anything. **Ctrl+D** (Cmd on macOS) fills the selected cell from the cell above and **Ctrl+R** from the cell to its left — the copy's relative references shift to the new position while `$`-pinned coordinates stay put, exactly as fill works in Excel; on the top row or first column there is no source cell, so the keys do nothing.
 
+## Select, copy, paste
+
+Hold **Shift** with the arrow keys to grow the selection into a rectangle, click a cell to select it, Shift+click to extend to it, and **Ctrl+A** (Cmd on macOS) to select the whole sheet. A range that crosses hidden rows or columns includes them — hiding changes what you see, never what an edit means.
+
+**Ctrl+C** copies the selection to the clipboard as plain tab-separated text carrying each cell's _source_ — formulas as formulas, not their results — so a copied block pastes into a text editor, a terminal, or another spreadsheet as-is. A dashed outline marks what was copied until your next edit.
+
+**Ctrl+V** pastes at the selection's top-left. Pasting a block you copied in the editor works the way a spreadsheet should: each formula's relative references shift by the distance of the move, `$`-pinned coordinates stay put, and a reference pushed off the sheet becomes `#REF!`. Pasting text from anywhere else lands exactly as written — plain values become values, and anything starting with `=` becomes that formula, unshifted. A whole pasted block is one edit: one Undo removes it, and a block containing a malformed formula is refused whole, leaving the sheet untouched. The editor never reads your clipboard on its own — the only read is the paste you perform.
+
+**Delete** (or Backspace) clears every cell in the selection, as one undoable edit. **Cut is not available yet**: cutting in a spreadsheet _moves_ cells, which follows different reference rules than copying, so until the editor can do that correctly it declines — copy, paste, then Delete the original.
+
 ## The view a sheet declares
 
 A `.tsvt` can declare what a viewport should do with it, on `#.` lines — which rows and columns to hide, which carry headers, which stay pinned while the rest scrolls. The editor honours all three: hidden rows and columns are not drawn, header rows read as headers, and frozen rows and columns stay put as you scroll.
