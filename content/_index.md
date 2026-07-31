@@ -4,6 +4,7 @@ title: tsvsheet.web
 
 **tsvsheet.web** is the grid editor for [tsvsheet](https://github.com/tsvsheet/tsvsheet) — a spreadsheet in plain text. It is a standalone, fully client-side webapp: open a `.tsvt` file into an editable computed grid, edit cells and formulas, and save canonical text back. The tsvsheet engine runs in the page as WebAssembly, so every cell is computed exactly as every other tsvsheet frontend computes it, and the file never leaves your machine.
 
+- Try it now: [tsvsheet.com/playground](https://tsvsheet.com/playground/) (also at [/app](https://tsvsheet.com/app/)) — the hosted editor, with a sample sheet, sheets saved in your browser, and shareable links
 - Source: `tsvsheet/tsvsheet.web` (not yet public)
 - Desktop app: [tsvsheet on the desktop](desktop.md)
 - Language: [tsvsheet/tsvsheet](https://github.com/tsvsheet/tsvsheet)
@@ -27,6 +28,22 @@ Hold **Shift** with the arrow keys to grow the selection into a rectangle, click
 **Ctrl+V** pastes at the selection's top-left. Pasting a block you copied in the editor works the way a spreadsheet should: each formula's relative references shift by the distance of the move, `$`-pinned coordinates stay put, and a reference pushed off the sheet becomes `#REF!`. Pasting text from anywhere else lands exactly as written — plain values become values, and anything starting with `=` becomes that formula, unshifted. A whole pasted block is one edit: one Undo removes it, and a block containing a malformed formula is refused whole, leaving the sheet untouched. The editor never reads your clipboard on its own — the only read is the paste you perform.
 
 **Delete** (or Backspace) clears every cell in the selection, as one undoable edit. **Cut is not available yet**: cutting in a spreadsheet _moves_ cells, which follows different reference rules than copying, so until the editor can do that correctly it declines — copy, paste, then Delete the original.
+
+## The formula bar and what a formula touches
+
+The bar above the grid always shows the selected cell's address and its _raw source_. Type there and press Enter to commit to the selected cell; Escape restores what the sheet holds. While a formula cell is selected, the grid rings its relationships: a **solid ring** marks every cell the formula reads, a **dashed ring** marks every cell whose formula reads _this_ one — the shapes differ, so the distinction never relies on color.
+
+## Rows, columns, and history from the keyboard
+
+The toolbar's **＋row／－row／＋col／－col** insert and delete at the selection, and **⧉row／⧉col** duplicate the selected line — the duplicate's relative references rebase, exactly as fill does. The bare keys **`+`**, **`-`**, **`]`**, and **`[`** do the same from the keyboard, and **Ctrl+Z** / **Ctrl+Shift+Z** (or Ctrl+Y; Cmd on macOS) walk the edit history. When you commit a cell edit, **Enter moves down** and **Tab moves right**, spreadsheet-style — a rejected edit stays put.
+
+## The source pane
+
+**Source** in the toolbar opens the raw `.tsvt` beside the grid, editable live: every keystroke recomputes the sheet, and the whole pane session is a _single_ undo step. Text the engine cannot parse marks the pane and leaves the sheet on its last good state — nothing is lost mid-edit.
+
+## Live sheets
+
+A sheet that wraps a value in `volatile(…)` recomputes itself at the soonest cadence any of its cells asks for (with a sensible floor), without touching your edit history or unsaved-changes state — and never while you are typing.
 
 ## The view a sheet declares
 
